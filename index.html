@@ -10,24 +10,43 @@
 <body>
 
     <header class="jumbotron">
-        <h1 class="display-3">Work Day Scheduler</h1>
+        <h1 class="display-3">Weather Dashboard </h1>
     </header>
 
     <!--  Side bar Section  --> 
-   <section id="sideBar" class="sideBarCity"> <h2> Search for a City </h2> </section> 
-   <form id="user-form" class="card-body">
-    <label class="form-label" for="username"></label>
-    <input name="username" id="username" type="text" autofocus="true" class="form-input" />
-    <button type="submit" class="btn">Search</button>
-  </form>
+    <div class="container">
+        <div class="row">
+          <div class="col-sm-4"><section id="sideBar" class="sideBarCity"> <h2> Search for a City : </h2> </section> 
+            <form id="user-form" class="card-body">
+             <label class="form-label" for="username"></label>
+             <input name="citySearch" id="citySearchh" type="text" autofocus="true" class="form-input" />
+           </form>
+           <br>
+           <button type="submit" class="btn" id="searchBtn">Search</button>
+
+           <!-- // Appened City go here  -->
+           <ul id="appendEl"> 
+               
+           </ul>
+        </div>
 
 
     <!-- Local Weather Dashboard - Which City was chosen  -->
-  <section> </section>
-
+ <!-- <div class="col-sm-8">
+     <h1> Display Current City info </h1>
+ </div> -->
 
    <!-- 5 Day future Forecast  -->
-  <section> </section>
+  <!-- <section> <h2>5-Day Forecast</h2></section> -->
+
+<!--  
+    </div>
+    <div class="row">
+      <div class="col-sm">col-sm</div>
+      <div class="col-sm">col-sm</div>
+      <div class="col-sm">col-sm</div>
+    </div>
+  </div> -->
 
     <script src="sandbox.js"></script>   
 </body>

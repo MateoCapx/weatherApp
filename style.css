@@ -1,7 +1,27 @@
+    /* Style for the Weather Dashboard */
 .jumbotron {
     text-align: center;
     background-color: transparent;
     color: black;
     border-radius: 0;
     border-bottom: 1px solid black;
+  }
+
+
+  #citySearchh{
+      padding: 10px;
+      width: 200px;
+  }
+
+  #searchBtn{
+    width: 225px;
+    padding: 5px;
+    background-color: rgb(100, 100, 253);
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+  }
+
+  .col-sm-4{
+      padding-left: 25px;
   }
