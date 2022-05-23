@@ -1,38 +1,29 @@
-    // Grabbing the Search Button from HTML
+// Grabbing the Search Button from HTML
 let searBtn = document.querySelector("#searchBtn")
-searBtn.addEventListener('click',search )
+searBtn.addEventListener('click', search)
 
 let seachInputField = document.querySelector("#citySearchh")
 
-    // Parent Element
+// Parent Element  
 let appenedEl = document.querySelector("#appendEl")
 
-function search(){
-     event.preventDefault();
-  console.log(seachInputField.value);
+function search() {
+    event.preventDefault();
+    console.log(seachInputField.value);
 
+    // Appeneding input from form field to Document
     let listItemEl = document.createElement("li");
-    listItemEl=seachInputField.value
-
-appenedEl.append(listItemEl)
-
+    listItemEl.textContent = seachInputField.value
+    appenedEl.append(listItemEl)
 
 
+    settingItemLS()
 
+}
 
-
-  
-//   listItemEl.textContent ='WORKS'
-
-//   
+// Setting values into local storage
+function settingItemLS() {
+    localStorage.setItem('City', seachInputField.value)
 }
 
 
-
-
-
-// function grabInputVaulue (e){
-//    
-//     seachInputField = e.target.value
-    
-// }

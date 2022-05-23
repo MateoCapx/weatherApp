@@ -13,6 +13,7 @@
       width: 200px;
   }
 
+  /* style for city search button  */
   #searchBtn{
     width: 225px;
     padding: 5px;
@@ -22,6 +23,22 @@
     font-size: 18px;
   }
 
+
+  /* Style for input form field / Side bar  */
   .col-sm-4{
       padding-left: 25px;
+  }
+
+  /* style for list items that come from form input  */
+  #appendEl{
+      width: 200px;
+     font-size: 30px;
+     list-style-type: none;
+     background-color: lightgray;
+     text-align: center;
+     padding-left: 0px;
+  }
+
+  #appendEl li {
+      padding-bottom: 10px;
   }
