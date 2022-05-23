@@ -2,6 +2,7 @@
 let searBtn = document.querySelector("#searchBtn")
 searBtn.addEventListener('click', search)
 
+// Grabbing the input field
 let seachInputField = document.querySelector("#citySearchh")
 
 // Parent Element  
@@ -27,3 +28,9 @@ function settingItemLS() {
 }
 
 
+// Getting items from local storage
+let storedInput = localStorage.getItem("City");
+
+if (storedInput ) {
+    seachInputField.value  = storedInput;
+}
