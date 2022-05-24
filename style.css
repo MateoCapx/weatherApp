@@ -1,22 +1,26 @@
-    /* Style for the Weather Dashboard */
+  /* body{
+      margin: 0px;
+  } */
+  
+  /* Style for the Weather Dashboard */
 .jumbotron {
     text-align: center;
     background-color: transparent;
     color: black;
     border-radius: 0;
     border-bottom: 1px solid black;
+    
   }
 
 
   #citySearchh{
       padding: 10px;
-      width: 200px;
+      width: 205px;
   }
 
   /* style for city search button  */
   #searchBtn{
-    width: 225px;
-    padding: 5px;
+    width: 243px;
     background-color: rgb(100, 100, 253);
     border-radius: 5px;
     color: white;
@@ -26,7 +30,17 @@
 
   /* Style for input form field / Side bar  */
   .col-sm-4{
-      padding-left: 25px;
+      padding-top: 25px;
+      padding-right: 5px;
+  }
+
+  .col-sm-8 h1{
+    padding-top: 25px;
+    padding-left: 80px;
+  }
+
+  .col-sm-8{
+    border-style:double;
   }
 
   /* style for list items that come from form input  */
@@ -34,11 +48,21 @@
       width: 200px;
      font-size: 30px;
      list-style-type: none;
-     background-color: lightgray;
      text-align: center;
      padding-left: 0px;
   }
 
   #appendEl li {
       padding-bottom: 10px;
+      background-color: lightgray;
+     
+  }
+
+
+  /* Styles for the 5 day forecast section */
+
+  #DayForecast{
+    padding-top: 50px;
+    padding-bottom: 30px;
+    text-align: center;
   }
