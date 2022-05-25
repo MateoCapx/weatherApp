@@ -55,6 +55,7 @@
   #appendEl li {
       padding-bottom: 10px;
       background-color: lightgray;
+      border-bottom: 1px solid black;
      
   }
 
@@ -65,4 +66,9 @@
     padding-top: 50px;
     padding-bottom: 30px;
     text-align: center;
+  }
+
+
+  #appendEl{
+      cursor: pointer;
   }

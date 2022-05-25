@@ -7,10 +7,6 @@ let seachInputField = document.querySelector("#citySearchh")
 let appenedEl = document.querySelector("#appendEl")
 
 let keyCount = 0;
-// const Latitude = place.geometry.location.lat()
-// const Longitude = place.geometry.location.lng()
-
-
 
     // Main function for program
 function search() {
@@ -27,10 +23,6 @@ function search() {
         window.alert("Enter City")
         return;
     }
-
-    if( seachInputField.value === 5){
-        console.log("too many citys enter ")
-    }
     
     settingItemLS()
     apiRequest() 
@@ -46,25 +38,50 @@ function settingItemLS() {
 
 
 // Getting items from local storage
-let storedInput = localStorage.getItem('keyCount');
+let storedInput = localStorage.getItem(keyCount);
 
 if (storedInput) {
     seachInputField.value = storedInput;
+   
+    let listItemEl = document.createElement("li");
+    listItemEl.textContent = seachInputField.value
+    appenedEl.append(listItemEl)
+
+    listItemEl.addEventListener("click",listItemAppened)
+
+
+ 
 }
+
+
+function listItemAppened(){
+    
+    apiRequest() 
+
+}
+
+
+
+
+
+
+
+
+
 
 
 // Displaying key values from API
 function displayWeather(data){
 
     // Capturing the values from the API
-    // const{city} = data.city
+    const{city} = seachInputField.value 
     const {temp} =data.current;
     const {wind_speed} =data.current;
     const {humidity} =data.current;
     const {uvi} =data.current;
     console.log(temp,wind_speed,humidity,uvi)
 
-    let cityInput = document.querySelector("#city").textContent = "City: " + city;
+    let cityInput = document.querySelector("#city").textContent = "City: " + seachInputField.value ;
    let currentTemp = document.querySelector("#currentTemp").textContent = "Current Tempature: " + temp + " °F"
    let windSpeed = document.querySelector("#windSpeed").textContent = "Wind Speed: " + wind_speed + temp + " MPH"
    let humidityTemp = document.querySelector("#humidity").textContent = "humidity: " + humidity  + temp + " %"
@@ -73,29 +90,31 @@ function displayWeather(data){
 
 
 
-
-
-
-
-
-
-
-
-// Making the API request
+// Making the API request Also pulling the city data from API
 function apiRequest(lat,lon) {
-let apiCall = "https://api.openweathermap.org/data/2.5/onecall?lat=27.999020&lon=-80.672661&units=imperial&appid=da99fee272bedf1c0e9e3e6d64481c78"
-
-    fetch(apiCall).then(function (response) {
+    let firstCall = "http://api.openweathermap.org/geo/1.0/direct?q="+ seachInputField.value +"&appid=da99fee272bedf1c0e9e3e6d64481c78"
+    
+    fetch(firstCall).then(function (response) {
         if(response.ok){
-            response.json().then(function (data) {
-                this.displayWeather(data)
-            });
+      return response.json()
 
         }else {
             alert(" Error Try Again")
         }
 
     }
+    ).then(function (data){
+        let lat =  data[0].lat// you need to get the lat and lon variables from the first response then pass them into the second link
+        let lon = data[0].lon
+        let secondCall = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat +"&lon="+lon+"&units=imperial&appid=da99fee272bedf1c0e9e3e6d64481c78"
+        fetch(secondCall).then(function (response) {
+            if(response.ok){
+                return response.json()
+            }
+        }).then(function (data){
+            console.log(data)
+            displayWeather(data)
+        })
+    }
     )
-
 };
