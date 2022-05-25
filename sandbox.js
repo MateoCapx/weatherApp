@@ -9,7 +9,7 @@ let appenedEl = document.querySelector("#appendEl")
 
 
     // Main function for program
-function search() {
+function search(event) {
     event.preventDefault();
     console.log(seachInputField.value);
 
@@ -28,10 +28,10 @@ function search() {
     apiRequest() 
 }
 
-
+let keyCount =  0;
 // Setting values into local storage
 function settingItemLS() {
-    let keyCount = local;
+    
   let local = localStorage.setItem(keyCount, seachInputField.value)
   keyCount = keyCount + 1;
 
@@ -44,18 +44,24 @@ let storedInput = localStorage.getItem(keyCount);
 if (storedInput) {
     seachInputField.value = storedInput;
    
-    let listItemEl = document.createElement("li");
+  
+
+    for (let i = 0; i < storedInput.length; i++) {
+        console.log(keyCount.length)
+        
+          let listItemEl = document.createElement("li");
     listItemEl.textContent = seachInputField.value
     appenedEl.append(listItemEl)
 
     listItemEl.addEventListener("click",listItemAppened)
 
+    }
 
  
 }
 
-
-function listItemAppened(){
+//Function for the appened items from local storage 
+function listItemAppened(event){
     event.preventDefault();
     apiRequest() 
 
@@ -119,3 +125,5 @@ function apiRequest(lat,lon) {
     }
     )
 };
+
+
