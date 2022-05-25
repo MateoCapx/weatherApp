@@ -6,7 +6,7 @@ let seachInputField = document.querySelector("#citySearchh")
 // Parent Element  
 let appenedEl = document.querySelector("#appendEl")
 
-let keyCount = 0;
+
 
     // Main function for program
 function search() {
@@ -31,6 +31,7 @@ function search() {
 
 // Setting values into local storage
 function settingItemLS() {
+    let keyCount = local;
   let local = localStorage.setItem(keyCount, seachInputField.value)
   keyCount = keyCount + 1;
 
@@ -55,7 +56,7 @@ if (storedInput) {
 
 
 function listItemAppened(){
-    
+    event.preventDefault();
     apiRequest() 
 
 }
