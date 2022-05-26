@@ -6,13 +6,14 @@ let seachInputField = document.querySelector("#citySearchh")
 // Parent Element  
 let appenedEl = document.querySelector("#appendEl")
 
-
+let arry= []
 
     // Main function for program
 function search(event) {
     event.preventDefault();
     console.log(seachInputField.value);
 
+   
     // Appeneding input from form field to Document
     let listItemEl = document.createElement("li");
     listItemEl.textContent = seachInputField.value
@@ -24,6 +25,7 @@ function search(event) {
         return;
     }
     
+    arrySet()
     settingItemLS()
     apiRequest() 
 }
@@ -32,28 +34,27 @@ let keyCount =  0;
 // Setting values into local storage
 function settingItemLS() {
     
-  let local = localStorage.setItem(keyCount, seachInputField.value)
-  keyCount = keyCount + 1;
+    let search = seachInputField.value
+    arry.push(search);
+    localStorage.setItem(keyCount,arry);
+    keyCount = keyCount + 1;
+    console.log(arry)
+
+  arrySet()
 
 }
 
 
-// Getting items from local storage
-let storedInput = localStorage.getItem(keyCount);
 
-if (storedInput) {
-    seachInputField.value = storedInput;
+
+
+
+
+function arrySet(){
    
-  
-
-    for (let i = 0; i < storedInput.length; i++) {
-        console.log(keyCount.length)
+    for (let i = 0; i < arry.length; i++) {
+        console.log("heyyyyyy")
         
-          let listItemEl = document.createElement("li");
-    listItemEl.textContent = seachInputField.value
-    appenedEl.append(listItemEl)
-
-    listItemEl.addEventListener("click",listItemAppened)
 
     }
 
@@ -65,6 +66,17 @@ function listItemAppened(event){
     event.preventDefault();
     apiRequest() 
 
+}
+
+
+// function getItemEl()
+    let storedInput = localStorage.getItem(keyCount);
+
+    arry =JSON.parse(localStorage.getItem('keyCount')) || [];
+     if (storedInput) {
+    seachInputField.value = storedInput;
+   
+    arrySet()
 }
 
 
@@ -124,6 +136,54 @@ function apiRequest(lat,lon) {
         })
     }
     )
+    
 };
 
+// getItemEl()
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function settingItemLS() {
+//    let storedInput = localStorage.getItem('keyCount');
+// if (storedInput === null) {
+//    let city = JSON.stringify([{city: seachInputField.value}])
+//    let storedInput = localStorage.setItem('keyCount', city)
+// } else {
+//    storedInput = JSON.parse(storedInput);
+//    storedInput.push({ city: seachInputField.value});
+//    localStorage.setItem('keyCount', JSON.stringify(storedInput))
+// }
+// }
+//    // Getting items from local storage
+//    let storedInput = localStorage.getItem('keyCount');
+//    let locationParse = JSON.parse(storedInput);
+//    for (let i = 0; i < locationParse.length; i++) {
+//        let loadButton = locationParse[i].city;
+//        console.log(locationParse[i].city)
+//        const savedCity = document.createElement('button');
+//        savedCity.textContent = loadButton;
+//        savedCity.setAttribute('id', 'saveBtn')
+//        historyEl.append(savedCity);
+//    }
+//    if (storedInput) {
+//        seachInputField.value = storedInput;
+//        let listItemEl = document.createElement("li");
+//        listItemEl.textContent = seachInputField.value
+//        appenedEl.append(listItemEl)
+//        listItemEl.addEventListener("click", listItemAppened)
+//    }
