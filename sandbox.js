@@ -3,187 +3,211 @@ let searBtn = document.querySelector("#searchBtn")
 searBtn.addEventListener('click', search)
 // Grabbing the input field
 let seachInputField = document.querySelector("#citySearchh")
-// Parent Element  
+// Parent Element  for <li's>
 let appenedEl = document.querySelector("#appendEl")
+// An array that holds all of the search history from the user
+let arry = JSON.parse(localStorage.getItem('searchHistory')) || []
 
-let arry= []
+arrySet() //this function is called right here to automatically get the saved searches.
 
-    // Main function for program
+// Main function for program
 function search(event) {
     event.preventDefault();
     console.log(seachInputField.value);
-
-   
-    // Appeneding input from form field to Document
-    let listItemEl = document.createElement("li");
-    listItemEl.textContent = seachInputField.value
-    appenedEl.append(listItemEl)
-
     // validating to make sure an input was made.
-   if(seachInputField.value === ""){
+    if (seachInputField.value === "") {
         window.alert("Enter City")
         return;
     }
-    
-    arrySet()
+
     settingItemLS()
-    apiRequest() 
+    apiRequest()
 }
 
-let keyCount =  0;
+let keyCount = 0;
+
 // Setting values into local storage
 function settingItemLS() {
-    
+
     let search = seachInputField.value
     arry.push(search);
-    localStorage.setItem(keyCount,arry);
-    keyCount = keyCount + 1;
+    localStorage.setItem('searchHistory', JSON.stringify(arry));
     console.log(arry)
 
-  arrySet()
+    arrySet()
 
 }
 
 
 
-
-
-
-
-function arrySet(){
-   
+// Looping over the array & appeneding li's to page. 
+function arrySet() {
+    appenedEl.innerHTML = "";  // Resetting The Parent Div that we append  search history too. Before creating the updated search history.
     for (let i = 0; i < arry.length; i++) {
         console.log("heyyyyyy")
-        
+
+        // Appeneding input from form field to Document
+        let listItemEl = document.createElement("li");
+        listItemEl.textContent = arry[i]
+        listItemEl.addEventListener("click", listItemAppened)
+        appenedEl.append(listItemEl)
 
     }
 
- 
+
 }
 
 //Function for the appened items from local storage 
-function listItemAppened(event){
+function listItemAppened(event) {
     event.preventDefault();
-    apiRequest() 
-
+    historyApiRequest(event.target.textContent) // 
+console.log(event.target.textContent)
 }
-
-
-// function getItemEl()
-    let storedInput = localStorage.getItem(keyCount);
-
-    arry =JSON.parse(localStorage.getItem('keyCount')) || [];
-     if (storedInput) {
-    seachInputField.value = storedInput;
-   
-    arrySet()
-}
-
-
-
-
-
-
 
 
 
 
 
 // Displaying key values from API
-function displayWeather(data){
+function displayWeather(data) {
 
     // Capturing the values from the API
-    const{city} = seachInputField.value 
-    const {temp} =data.current;
-    const {wind_speed} =data.current;
-    const {humidity} =data.current;
-    const {uvi} =data.current;
-    console.log(temp,wind_speed,humidity,uvi)
+    const { city } = seachInputField.value
+    const { temp } = data.current;
+    const { wind_speed } = data.current;
+    const { humidity } = data.current;
+    const { uvi } = data.current;
+    console.log(temp, wind_speed, humidity, uvi)
 
-    let cityInput = document.querySelector("#city").textContent = "City: " + seachInputField.value ;
-   let currentTemp = document.querySelector("#currentTemp").textContent = "Current Tempature: " + temp + " °F"
-   let windSpeed = document.querySelector("#windSpeed").textContent = "Wind Speed: " + wind_speed + temp + " MPH"
-   let humidityTemp = document.querySelector("#humidity").textContent = "humidity: " + humidity  + temp + " %"
-   let uvIndex = document.querySelector("#uvIndex").textContent = "UV Index: " + uvi;
+    let cityInput = document.querySelector("#city").textContent = "City: " + seachInputField.value;
+    let currentTemp = document.querySelector("#currentTemp").textContent = "Current Tempature: " + temp + " °F"
+    let windSpeed = document.querySelector("#windSpeed").textContent = "Wind Speed: " + wind_speed + temp + " MPH"
+    let humidityTemp = document.querySelector("#humidity").textContent = "humidity: " + humidity + temp + " %"
+    let uvIndex = document.querySelector("#uvIndex").textContent = "UV Index: " + uvi;
+}
+
+
+// 2nd Display Weather function used to display city name once i click onto a searched city from the history tabs 
+function historyDisplayWeather(data,cityName) {
+
+    // Capturing the values from the API
+    const { city } = seachInputField.value
+    const { temp } = data.current;
+    const { wind_speed } = data.current;
+    const { humidity } = data.current;
+    const { uvi } = data.current;
+    console.log(temp, wind_speed, humidity, uvi)
+
+    let cityInput = document.querySelector("#city").textContent = "City: " + cityName;
+    let currentTemp = document.querySelector("#currentTemp").textContent = "Current Tempature: " + temp + " °F"
+    let windSpeed = document.querySelector("#windSpeed").textContent = "Wind Speed: " + wind_speed + temp + " MPH"
+    let humidityTemp = document.querySelector("#humidity").textContent = "humidity: " + humidity + temp + " %"
+    let uvIndex = document.querySelector("#uvIndex").textContent = "UV Index: " + uvi;
 }
 
 
 
-// Making the API request Also pulling the city data from API
-function apiRequest(lat,lon) {
-    let firstCall = "http://api.openweathermap.org/geo/1.0/direct?q="+ seachInputField.value +"&appid=da99fee272bedf1c0e9e3e6d64481c78"
-    
-    fetch(firstCall).then(function (response) {
-        if(response.ok){
-      return response.json()
 
-        }else {
+
+
+
+// Making the API request Also pulling the city data from API
+function apiRequest(lat, lon) {
+    let firstCall = "http://api.openweathermap.org/geo/1.0/direct?q=" + seachInputField.value + "&appid=da99fee272bedf1c0e9e3e6d64481c78"
+
+    fetch(firstCall).then(function (response) {
+        if (response.ok) {
+            return response.json()
+
+        } else {
             alert(" Error Try Again")
         }
 
     }
-    ).then(function (data){
-        let lat =  data[0].lat// you need to get the lat and lon variables from the first response then pass them into the second link
+    ).then(function (data) {
+        let lat = data[0].lat// you need to get the lat and lon variables from the first response then pass them into the second link
         let lon = data[0].lon
-        let secondCall = "https://api.openweathermap.org/data/2.5/onecall?lat="+lat +"&lon="+lon+"&units=imperial&appid=da99fee272bedf1c0e9e3e6d64481c78"
+        let secondCall = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=da99fee272bedf1c0e9e3e6d64481c78"
         fetch(secondCall).then(function (response) {
-            if(response.ok){
+            if (response.ok) {
                 return response.json()
             }
-        }).then(function (data){
+        }).then(function (data) {
             console.log(data)
             displayWeather(data)
         })
     }
     )
-    
+
 };
 
-// getItemEl()
 
 
 
 
+// function that displays city name when user clicks on history city 
+function historyApiRequest(cityName) {
+    let firstCall = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=da99fee272bedf1c0e9e3e6d64481c78"
+ console.log("Its working") 
+    fetch(firstCall).then(function (response) {
+        if (response.ok) {
+            return response.json()
+
+        } else {
+            alert(" Error Try Again")
+        }
+
+    }
+    ).then(function (data) {
+        let lat = data[0].lat// you need to get the lat and lon variables from the first response then pass them into the second link
+        let lon = data[0].lon
+        let secondCall = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=da99fee272bedf1c0e9e3e6d64481c78"
+        fetch(secondCall).then(function (response) {
+            if (response.ok) {
+                return response.json()
+            }
+        }).then(function (data) {
+            console.log(data)
+            historyDisplayWeather(data,cityName)
+        })
+    }
+    )
+
+ };
 
 
 
 
+function fiveDayDisplay(){
+    let dailyDisplay ="http://api.openweathermap.org/data/2.5/forecast?q=" + seachInputField.value + "&appid=da99fee272bedf1c0e9e3e6d64481c78"
+
+    
+    fetch(dailyDisplay).then(function (response){
+        if (response.ok) {
+            return response.json()
+        } else {
+            alert(" Error Try Again")
+        }
+
+    }.then(function (data) {
 
 
 
+   
+    })
+    .catch (error => alert ("Somthing went wrong"))
 
+    
+    )
+search()
+}
 
-
-
-
-
-
-// function settingItemLS() {
-//    let storedInput = localStorage.getItem('keyCount');
-// if (storedInput === null) {
-//    let city = JSON.stringify([{city: seachInputField.value}])
-//    let storedInput = localStorage.setItem('keyCount', city)
-// } else {
-//    storedInput = JSON.parse(storedInput);
-//    storedInput.push({ city: seachInputField.value});
-//    localStorage.setItem('keyCount', JSON.stringify(storedInput))
+   
+// for (let index = 0; index < 4; index++) {
+//     const element = array[index];
+    
 // }
-// }
-//    // Getting items from local storage
-//    let storedInput = localStorage.getItem('keyCount');
-//    let locationParse = JSON.parse(storedInput);
-//    for (let i = 0; i < locationParse.length; i++) {
-//        let loadButton = locationParse[i].city;
-//        console.log(locationParse[i].city)
-//        const savedCity = document.createElement('button');
-//        savedCity.textContent = loadButton;
-//        savedCity.setAttribute('id', 'saveBtn')
-//        historyEl.append(savedCity);
-//    }
-//    if (storedInput) {
-//        seachInputField.value = storedInput;
-//        let listItemEl = document.createElement("li");
-//        listItemEl.textContent = seachInputField.value
-//        appenedEl.append(listItemEl)
-//        listItemEl.addEventListener("click", listItemAppened)
-//    }
+
+    // let cityInput = document.querySelector("#city").textContent = "City: " + seachInputField.value;
+//     let currentTemp = document.querySelector("#currentTemp").textContent = "Current Tempature: " + temp + " °F"
+//     let windSpeed = document.querySelector("#windSpeed").textContent = "Wind Speed: " + wind_speed + temp + " MPH"
