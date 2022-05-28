@@ -5,7 +5,7 @@ searBtn.addEventListener('click', search)
 let seachInputField = document.querySelector("#citySearchh")
 // Parent Element  for <li's>
 let appenedEl = document.querySelector("#appendEl")
-// An array that holds all of the search history from the user
+// An array that holds all of the search history from the user/ Getting items from local storage 
 let arry = JSON.parse(localStorage.getItem('searchHistory')) || []
 
 arrySet() //this function is called right here to automatically get the saved searches.
@@ -20,11 +20,11 @@ function search(event) {
         return;
     }
 
+   
     settingItemLS()
     apiRequest()
+    
 }
-
-let keyCount = 0;
 
 // Setting values into local storage
 function settingItemLS() {
@@ -61,11 +61,9 @@ function arrySet() {
 function listItemAppened(event) {
     event.preventDefault();
     historyApiRequest(event.target.textContent) // 
-console.log(event.target.textContent)
+    console.log(event.target.textContent)
+    
 }
-
-
-
 
 
 // Displaying key values from API
@@ -81,8 +79,8 @@ function displayWeather(data) {
 
     let cityInput = document.querySelector("#city").textContent = "City: " + seachInputField.value;
     let currentTemp = document.querySelector("#currentTemp").textContent = "Current Tempature: " + temp + " °F"
-    let windSpeed = document.querySelector("#windSpeed").textContent = "Wind Speed: " + wind_speed + temp + " MPH"
-    let humidityTemp = document.querySelector("#humidity").textContent = "humidity: " + humidity + temp + " %"
+    let windSpeed = document.querySelector("#windSpeed").textContent = "Wind Speed: " + wind_speed + " MPH"
+    let humidityTemp = document.querySelector("#humidity").textContent = "humidity: " + humidity + " %"
     let uvIndex = document.querySelector("#uvIndex").textContent = "UV Index: " + uvi;
 }
 
@@ -99,15 +97,11 @@ function historyDisplayWeather(data,cityName) {
     console.log(temp, wind_speed, humidity, uvi)
 
     let cityInput = document.querySelector("#city").textContent = "City: " + cityName;
-    let currentTemp = document.querySelector("#currentTemp").textContent = "Current Tempature: " + temp + " °F"
-    let windSpeed = document.querySelector("#windSpeed").textContent = "Wind Speed: " + wind_speed + temp + " MPH"
-    let humidityTemp = document.querySelector("#humidity").textContent = "humidity: " + humidity + temp + " %"
+    let currentTemp = document.querySelector("#currentTemp").textContent = "Current Tempature: " +temp+ " °F"
+    let windSpeed = document.querySelector("#windSpeed").textContent = "Wind Speed: " + wind_speed + " MPH"
+    let humidityTemp = document.querySelector("#humidity").textContent = "humidity: " + humidity + " %"
     let uvIndex = document.querySelector("#uvIndex").textContent = "UV Index: " + uvi;
 }
-
-
-
-
 
 
 
@@ -135,6 +129,7 @@ function apiRequest(lat, lon) {
         }).then(function (data) {
             console.log(data)
             displayWeather(data)
+            fiveDayDisplay(data.daily.slice(1,6))
         })
     }
     )
@@ -148,7 +143,7 @@ function apiRequest(lat, lon) {
 // function that displays city name when user clicks on history city 
 function historyApiRequest(cityName) {
     let firstCall = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&appid=da99fee272bedf1c0e9e3e6d64481c78"
- console.log("Its working") 
+ 
     fetch(firstCall).then(function (response) {
         if (response.ok) {
             return response.json()
@@ -178,36 +173,63 @@ function historyApiRequest(cityName) {
 
 
 
-function fiveDayDisplay(){
-    let dailyDisplay ="http://api.openweathermap.org/data/2.5/forecast?q=" + seachInputField.value + "&appid=da99fee272bedf1c0e9e3e6d64481c78"
+ //function that displays 5 day forcast 
+function fiveDayDisplay(dataSet){
+     
+for (let i = 0; i < dataSet.length; i++) {
+    console.log( dataSet[1].temp.day)
+
+    //Day 0 forecast
+    let tempature0 = document.querySelector("#currentTemp0").textContent = "Tempature:"+
+        dataSet[0].temp.day + " °F"
+    let windSpeed0 = document.querySelector("#windSpeed0").textContent = "Wind Speed:"+
+    dataSet[0].wind_speed + " MPH"
+    let humidity0 = document.querySelector("#humidity0").textContent = "Humidity:"+
+    dataSet[0].humidity + " %"
+ 
+    //Day 1 forecast
+    let tempature1 = document.querySelector("#currentTemp1").textContent = "Tempature:"+
+    dataSet[1].temp.day + " °F"
+    let windSpeed1 = document.querySelector("#windSpeed1").textContent = "Wind Speed:"+
+    dataSet[1].wind_speed + " MPH"
+    let humidity1 = document.querySelector("#humidity1").textContent = "Humidity:"+
+    dataSet[1].humidity + " %"
+
+
+
+    //Day 2 forecast
+    let tempature2 = document.querySelector("#currentTemp2").textContent = "Tempature:"+
+    dataSet[2].temp.day + " °F"
+    let windSpeed2 = document.querySelector("#windSpeed2").textContent = "Wind Speed:"+
+    dataSet[2].wind_speed + " MPH"
+    let humidity2 = document.querySelector("#humidity2").textContent = "Humidity:"+
+    dataSet[2].humidity + " %"
+
+    //Day 3 forecast
+    let tempature3 = document.querySelector("#currentTemp3").textContent = "Tempature:"+
+    dataSet[3].temp.day + " °F"
+    let windSpeed3 = document.querySelector("#windSpeed3").textContent = "Wind Speed:"+
+    dataSet[3].wind_speed + " MPH"
+    let humidity3 = document.querySelector("#humidity3").textContent = "Humidity:"+
+    dataSet[3].humidity + " %"
+
+
+    //Day 4 forecast
+    let tempature4 = document.querySelector("#currentTemp4").textContent = "Tempature:"+
+    dataSet[4].temp.day + " °F"
+    let windSpeed4 = document.querySelector("#windSpeed4").textContent = "Wind Speed:"+
+    dataSet[4].wind_speed + " MPH"
+    let humidity4 = document.querySelector("#humidity4").textContent = "Humidity:"+
+    dataSet[4].humidity + " %"
 
     
-    fetch(dailyDisplay).then(function (response){
-        if (response.ok) {
-            return response.json()
-        } else {
-            alert(" Error Try Again")
-        }
-
-    }.then(function (data) {
-
-
-
-   
-    })
-    .catch (error => alert ("Somthing went wrong"))
-
-    
-    )
-search()
 }
 
-   
-// for (let index = 0; index < 4; index++) {
-//     const element = array[index];
-    
-// }
 
-    // let cityInput = document.querySelector("#city").textContent = "City: " + seachInputField.value;
-//     let currentTemp = document.querySelector("#currentTemp").textContent = "Current Tempature: " + temp + " °F"
-//     let windSpeed = document.querySelector("#windSpeed").textContent = "Wind Speed: " + wind_speed + temp + " MPH"
+  console.log({dataSet})
+   
+
+}
+
+
+  

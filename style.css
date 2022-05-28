@@ -1,6 +1,8 @@
-  /* body{
-      margin: 0px;
-  } */
+   body{
+    background: rgb(235,235,235);
+    background: linear-gradient(0deg, rgba(235,235,235,1) 41%, rgba(16,99,224,0.4640231092436975) 100%);
+   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  } 
   
   /* Style for the Weather Dashboard */
 .jumbotron {
@@ -32,14 +34,15 @@
   .col-sm-4{
       padding-top: 25px;
       padding-right: 5px;
+      margin-left: 20px;
   }
 
-  .col-sm-8 h1{
+  .col-sm-6 h1{
     padding-top: 25px;
     padding-left: 80px;
   }
 
-  .col-sm-8{
+  .col-sm-6{
     border-style:double;
   }
 
@@ -72,3 +75,53 @@
   #appendEl{
       cursor: pointer;
   }
+
+
+  div.col-sm{
+    border: 1px solid black;
+    
+  }
+
+ 
+
+  /* Media Queries Starts  */
+
+  /* Tablets  */
+  @media screen and (max-width: 766px) {    /* If the Width of the screen is SMALLER than 980px  */
+    div.container{
+       
+        max-width: 777px;
+    }
+      
+ div.col-sm-6{
+    margin-left: 10px;
+    margin-top: 20px;
+ }
+ 
+
+ div.col-sm-4{
+ margin-left: 115px;
+ }
+  }
+
+
+
+  
+ 
+/* moblie screens  */
+   @media screen and (max-width: 480px) {
+
+    .col-sm-4{
+        text-align: center;
+        margin-left: 5px;
+    }
+ 
+    ul#appendEl{
+        width: 460px;
+    }
+
+    div.col-sm-6{
+        text-align: center;
+        margin-left: 10px;
+    }
+   }
